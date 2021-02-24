@@ -21,7 +21,17 @@ app.use(cookieParser());
 app.use(cors());
 
 const categoryRoutes = require("./routes/category");
+const productRoutes = require("./routes/productRoutes");
+
+
+
+
+
 
 app.use("/api", categoryRoutes);
+app.use("/api", productRoutes);
+
+
+
 
 app.listen(port, () => console.log(`Example app listening at http://localhost:${port}`))
