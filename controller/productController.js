@@ -38,39 +38,52 @@ exports.createProduct =
 };
 
 
-// exports.getAllproduct =
-//    (req, res) => 
-//   {
-//     Product.find().exec((err, product) => {
-//       if (err) {
-//         return res.status(400).json({
-//           error: "NO categories found"
-//         });
-//       }
-//       res.json(product);
-//     });
-//   };
+exports.getAllproduct =
+   (req, res) => 
+  {
+    Product.find().exec((err, productData) => {
+      if (err) {
+        return res.status(400).json({
+          error: "NO Products  found"
+        });
+      }
+      
+      res.json(productData);
+
+    });
+  };
+// id = 6035d49204fa0406a27cc52d
+
+exports.getProductById = (req, res, next, id) => 
+{
+  Product.findById(id)
+    .populate("category")   // get foregin key data 
+    .exec((err, productData) => 
+    {
+      if (err) {
+        return res.status(400).json({
+          error: "Product not found"
+        });
+      }
+
+      req.product = productData;  //global variable 
+
+      next();
+    
+    });
+};
 
 
-// exports.getProductById = (req, res, next, id) => {
-//   Product.findById(id)
-//     .populate("category")
-//     .exec((err, product) => {
-//       if (err) {
-//         return res.status(400).json({
-//           error: "Product not found"
-//         });
-//       }
-//       req.product = product;
-//       next();
-//     });
-// };
+
+exports.getProduct = (req, res) => 
+{
+    // req.product.photo = undefined;
+    return res.json(req.product);
+ 
+};
 
 
-// exports.getProduct = (req, res) => {
-//     req.product.photo = undefined;
-//     return res.json(req.product);
-//   };
+
 // // // delete controllers
 // exports.deleteProduct = (req, res) => {
 //   let product = req.product;
